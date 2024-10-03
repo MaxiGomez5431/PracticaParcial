@@ -279,6 +279,48 @@ document.getElementById('calcular').addEventListener('click', calcularOperacion)
 
 //Ejercicio 9
 
+document.getElementById('miFormulario').addEventListener('submit', function(event) {
+  event.preventDefault();  // Prevenir el envío del formulario por defecto
+
+  let nombre = document.getElementById('nombre').value.trim();
+  let edad = document.getElementById('edad').value.trim();
+  let errorNombre = document.getElementById('errorNombre');
+  let errorEdad = document.getElementById('errorEdad');
+  let resultado = document.getElementById('resultadoForm');
+
+  let esValido = true;
+
+  // Resetear mensajes de error y éxito
+  errorNombre.textContent = '';
+  errorEdad.textContent = '';
+  resultado.textContent = '';
+
+  // Validar campo de nombre
+  if (nombre === '') {
+      errorNombre.textContent = 'El campo de nombre no puede estar vacío.';
+      esValido = false;
+  }
+
+  // Validar campo de edad
+  if (edad === '') {
+      errorEdad.textContent = 'El campo de edad no puede estar vacío.';
+      esValido = false;
+  } else if (isNaN(edad) || edad <= 0) {
+      errorEdad.textContent = 'Por favor, introduce una edad válida.';
+      esValido = false;
+  } else if(edad < 18){
+      errorEdad.textContent = 'Debes ser mayor de 18 años.';
+      esValido = false;
+  }
+
+  // Mostrar mensaje de éxito si todo es válido
+  if (esValido) {
+      resultado.textContent = 'Envío correcto';
+  }
+});
+
+
+
 //Ejercicio 10
 const listadoProductos = [
   {
@@ -307,4 +349,24 @@ const listadoProductos = [
     precio: 150
   }
 ]
+
+const resultadoPrecio = document.getElementById('precio')
+const inputProducto = document.getElementById('producto')
+const btnBuscar = document.getElementById('buscar')
+
+btnBuscar.addEventListener('click', function() {
+  
+  const productoIngresado = inputProducto.value.trim(); // Obtener el valor ingresado y eliminar espacios
+
+  const productoEncontrado = listadoProductos.find(producto => producto.nombre.toLowerCase() === productoIngresado.toLowerCase());
+
+  if(productoEncontrado){
+    resultadoPrecio.innerText = `Producto: ${productoEncontrado.nombre} \nDescripción: ${productoEncontrado.descripcion} \nPrecio: $${productoEncontrado.precio}`;
+  }
+  else{
+    resultadoPrecio.innerText = 'Producto no encontrado.';
+  }
+
+  
+})
 
